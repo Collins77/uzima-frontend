@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 // const SERVER = "http://localhost:5000";
-const SERVER = "https://uzima-backe.vercel.app";
+const SERVER = "https://backend.api.uzima.ai";
 
 
 

@@ -6,7 +6,7 @@ import { FaArrowRight, FaUser } from 'react-icons/fa'
 import { MdOutlinePayment } from 'react-icons/md'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-const SERVER = "https://uzima-backe.vercel.app"
+const SERVER = "https://backend.api.uzima.ai"
 // const SERVER = "http://localhost:5000"
 
 const AdminDash = () => {

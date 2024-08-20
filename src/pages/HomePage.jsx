@@ -12,8 +12,8 @@ const HomePage = () => {
             <p className='text-lg text-gray-600'>Access Uzima and get help anywhere anytime. Our AI is trained to handle all types of mental health disorders, including addictions.</p>
           </div>
           <div className='sm:flex sm:flex-row flex flex-col items-center justify-center gap-[10px]'>
-            <button className='bg-green-400 text-white px-2 py-1 rounded-md'>7 Day Free Trial</button>
-            <button className='border border-green-500 rounded-md px-2 py-1'>Request a Demo</button>
+            <a href="/signup" className='bg-green-400 text-white px-2 py-1 rounded-md'>7 Day Free Trial</a>
+            <a href="/" className='border border-green-500 rounded-md px-2 py-1'>Request a Demo</a>
           </div>
           <div className='absolute sm:block hidden left-5 z-2 top-20 bg-gray-400 text-white p-2 rounded-sm'>
             <p>Hey, I am Uzima AI, your counsellor today...</p>

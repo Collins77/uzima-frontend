@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaBars, FaChevronDown } from 'react-icons/fa';
+import logo from '../assets/uzima-logo.png'
 
 const Navbar = () => {
   const [isProductsDropdownOpen, setProductsDropdownOpen] = useState(false);
@@ -9,8 +10,8 @@ const Navbar = () => {
   return (
     <div className='w-full h-[70px] bg-transparent sm:px-[30px] px-[10px] flex justify-between items-center py-4 border-b-2'>
       <a href='/' className='no-underline text-black flex items-center'>
-        <img src="" alt="" />
-        <h1 className='text-green-500 font-bold'>UZIMA AI</h1>
+        <img src={logo} alt="" className='w-12 h-12' />
+        {/* <h1 className='text-green-500 font-bold'>UZIMA AI</h1> */}
       </a>
       <div className='sm:flex hidden items-center justify-between gap-4 bg-white p-3 rounded-lg'>
         <a href="/">Home</a>
@@ -48,7 +49,7 @@ const Navbar = () => {
         <a href='/'>Contact</a>
       </div>
       <div className='sm:flex hidden gap-2'>
-        <a href="/" className='bg-black text-white p-1.5 rounded-md'>Corporates</a>
+        <a href="/corp-signin" className='bg-black text-white p-1.5 rounded-md'>Corporates</a>
         <a href="/signin" className='bg-black text-white p-1.5 rounded-md'>Login</a>
         <a href="/signup" className='bg-transparent border-black border p-1.5 rounded-md'>Sign Up</a>
       </div>
