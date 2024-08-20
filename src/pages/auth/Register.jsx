@@ -37,13 +37,13 @@ const Register = () => {
     <div className='w-full'>
       {/* <Navbar /> */}
       <div> 
-        <div className='flex flex-col items-center justify-center w-full h-[90vh]'>
-          <h1 className='font-bold text-4xl'>Welcome to Uzima</h1>
+        <div className='flex flex-col sm:px-0 px-7 items-center justify-center w-full h-[90vh]'>
+          <h1 className='font-bold sm:text-4xl text-2xl'>Welcome to Uzima</h1>
           <p className='text-gray-500 text-sm mb-4'>Sign up to get your mental health checked and improved.</p>
-          <form onSubmit={handleSubmit} className='border border-green-100 w-[450px] p-[30px] rounded-xl shadow-md'>
+          <form onSubmit={handleSubmit} className='border border-green-100 sm:w-[450px] p-[30px] rounded-xl shadow-md'>
             <h1 className='text-center font-bold text-2xl mb-3'>UZIMA AI</h1>
             <div className='' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='sm:grid sm:grid-cols-2 gap-2'>
                 <input
                   type="text"
                   className='w-full p-2 rounded-md border border-gray-400 outline-none mb-3'

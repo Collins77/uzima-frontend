@@ -3,16 +3,20 @@ import { IoSend } from "react-icons/io5";
 // import model from '../../lib/gemini';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 // const SERVER = "http://localhost:5000";
 const SERVER = "https://uzima-backe.vercel.app";
 
 
-const ChatPage = () => { 
+
+const ChatPage = () => {
     const [question, setQuestion] = useState('');
     const [messages, setMessages] = useState([]);
     const user = useSelector((state) => state.auth.user);
     const userId = user._id;
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const formatMessage = (msg) => {
         // Ensure message content is always an array
@@ -46,6 +50,7 @@ const ChatPage = () => {
     const add = async (text) => {
         setQuestion(text);
         setLoading(true);
+        setError(null); 
 
         try {
             const response = await axios.post(`${SERVER}/api/assistant/add-message`, {
@@ -53,12 +58,21 @@ const ChatPage = () => {
                 message: text
             });
 
-            const { userMessage, assistantResponse } = response.data;
+            let { userMessage, assistantResponse } = response.data;
+
+            // Replace stars with bold HTML tags
+            assistantResponse = assistantResponse.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+            // Remove any hashes
+            assistantResponse = assistantResponse.replace(/#/g, '');
+
+            // Split the assistant's response into an array of points based on newlines
+            const formattedResponse = assistantResponse.split('\n').map(point => point.trim()).filter(point => point !== '');
 
             // Create new message objects with the expected structure
             const newMessages = [
                 { role: 'user', content: [{ type: 'text', text: { value: userMessage } }] },
-                { role: 'assistant', content: [{ type: 'text', text: { value: assistantResponse } }] }
+                { role: 'assistant', content: formattedResponse.map(point => ({ type: 'text', text: { value: point } })) }
             ];
 
             console.log('New messages:', newMessages);
@@ -67,7 +81,11 @@ const ChatPage = () => {
             setMessages(prevMessages => [...prevMessages, ...newMessages.map(formatMessage)]);
             setQuestion('');
         } catch (error) {
-            console.error('Error sending message:', error);
+            if (error.response && error.response.status === 403) {
+                setError(error.response.data.error); // Set the error message from the backend
+            } else {
+                setError('An unexpected error occurred');
+            }
         } finally {
             setLoading(false);
             window.location.reload();
@@ -96,22 +114,29 @@ const ChatPage = () => {
                             </div>
                         ) : (
                             <div>
-                                {/* {question && <div className='bg-black mb-2 text-white text-start'>{question}</div>}
-                            {answer && <div className='text-start bg-gray-500 text-white'>
-                                {answer}
-                            </div>} */}
-                                {messages.map((msg, index) => (
+                                {/* {messages.map((msg, index) => (
                                     <div key={index} className={`mb-2 p-2  rounded-md ${msg.role === 'user' ? 'bg-black text-white float-end w-fit mt-10' : 'bg-gray-500 mt-10 w-[80%] float-start text-white'}`}>
                                         {msg.content.map((part, idx) => (
-                                            <div key={idx}>
-                                                {part.text?.value || 'No content available'}
-                                            </div>
+                                            <ReactMarkdown key={idx} children={part.text?.value || 'No content available'} remarkPlugins={[remarkGfm]} />
+                                        ))}
+                                    </div>
+                                ))} */}
+                                {messages.map((msg, index) => (
+                                    <div key={index} className={`mb-2 p-2 rounded-md max-w-[60%] ${
+                                        msg.role === 'user' ? 'bg-black text-white self-end ml-auto' : 'bg-gray-500 text-white self-start mr-auto'
+                                    }`}>
+                                        {msg.content.map((part, idx) => (
+                                            <ReactMarkdown
+                                                key={idx}
+                                                children={part.text?.value || 'No content available'}
+                                                remarkPlugins={[remarkGfm]}
+                                            />
                                         ))}
                                     </div>
                                 ))}
                             </div>
                         )}
-                        <div className='fixed w-[75%] flex items-center bottom-[50px] right-20'>
+                        <div className='fixed sm:w-[75%] flex items-center sm:bottom-[50px] bottom-[20px] sm:right-20'>
                             <form onSubmit={handleSubmit} className='w-full relative px-5'>
                                 {/* <input type="text" name='text' className='w-[100%] px-3 py-2 rounded-md bg-gray-800 text-white' placeholder='Ask me anything...' /> */}
                                 <input
@@ -130,6 +155,11 @@ const ChatPage = () => {
                         </div>
                     </div>
                 </div>
+                {error && (
+                    <div className='fixed bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-red-600 text-white rounded-md'>
+                        {error}
+                    </div>
+                )}
             </div>
         </div>
     )

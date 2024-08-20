@@ -2,7 +2,6 @@ import React from 'react'
 import { FaArrowRight } from 'react-icons/fa6'
 import MoodChart from '../../components/MoodChart'
 import { FaBookOpen } from 'react-icons/fa'
-import { IoTime } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
 
 const Dashboard = () => {
@@ -15,30 +14,30 @@ const Dashboard = () => {
                     <p className='text-white text-sm'>You are on a free plan. Your access to our services is limited. Kindly <a href="/billing" className='underline'>Upgrade Here</a> to access everything.</p>
                 </div>
                 <div className='mb-4'>
-                    <h1 className='font-extrabold text-2xl'>Welcome, {user?.firstName} 👋</h1>
+                    <h1 className='font-extrabold sm:text-2xl text-xl'>Welcome, {user?.firstName} 👋</h1>
                     <p className='text-gray-500 text-sm'>Take a look at some of our features</p>
                 </div>
-                <div className='flex w-full gap-2 mb-4'>
-                    <div className='grid grid-cols-2 gap-2 w-[60%]'>
-                        <div className='bg-green-300 p-2 rounded-md'>
+                <div className='sm:flex w-full gap-2 mb-4'>
+                    <div className='sm:grid sm:grid-cols-2 sm:gap-2 sm:w-[60%] w-full'>
+                        <div className='bg-green-300 p-2 rounded-md sm:mb-0 mb-4'>
                             <h1 className='text-white font-bold text-sm'>Access Uzima AI and chat with our tailored model.</h1>
                             <p className='text-gray-600 text-[11px] mb-6'>Chat with Uzima AI and get help and insight into your mental health state. You can discuss anything with the AI.</p>
-                            <a href="/" className='flex items-center text-sm gap-1 underline'>
+                            <a href="/chat" className='flex items-center text-sm gap-1 underline'>
                                 Talk to Uzima
                                 <FaArrowRight />
                             </a>
                         </div>
-                        <div className='bg-purple-300 p-2 rounded-md'>
-                            <h1 className='text-white font-bold text-sm'>Take Our Mental Analysis Questionnaire</h1>
+                        <div className='bg-purple-300 p-2 sm:mb-0 mb-4 rounded-md'>
+                            <h1 className='text-white font-bold text-sm'>Take Our Mental Analysis Assessment</h1>
                             <p className='text-gray-600 text-[11px] mb-6'>Our questionnaire helps us get a better view of your mental state so the AI can better understand you.</p>
-                            <a href="/" className='flex items-center text-sm gap-1 underline'>
-                                Take the questionnaire here
+                            <a href="/dashboard" className='flex items-center text-sm gap-1 underline'>
+                                Take the assessment here
                                 <FaArrowRight />
                             </a>
                         </div>
 
                     </div>
-                    <div className='w-[40%]'>
+                    <div className='sm:w-[40%] w-full'>
                         <div className='flex items-center justify-between'>
                             <h1 className='font-bold'>Resources Tab</h1>
                             <a href="/" className='underline'>View All</a>
@@ -72,12 +71,12 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex gap-4'>
-                    <div className='w-[50%] h-[250px]'>
-                        <h1 className='mb-4 font-bold text-xl'>This Weeks Analysis</h1>
+                <div className='sm:flex sm:gap-4'>
+                    <div className='sm:w-[50%] sm:block hidden w-full sm:h-[250px] h-[150px]'>
+                        <h1 className='mb-4 font-bold sm:text-xl'>This Weeks Analysis</h1>
                         <MoodChart />
                     </div>
-                    <div className='w-[50%]'>
+                    <div className='sm:w-[50%] w-full'>
                         <h1 className='font-bold mb-4'>Professional Appointments</h1>
                         <div className='p-2 border rounded-md w-full'>
                             <h1 className='text-gray-400'>No Professional appointments available.</h1>

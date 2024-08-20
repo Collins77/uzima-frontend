@@ -2,9 +2,9 @@ import React from 'react'
 
 const DetailsForm = ({user}) => {
     return (
-        <div className='w-[500px] p-2'>
+        <div className='sm:w-[500px] p-2'>
             <form action="" className='w-full'>
-                <div className='flex items-center gap-2 justify-between mb-4 w-full'>
+                <div className='sm:flex items-center gap-2 justify-between mb-4 w-full'>
                     <div className='flex flex-col w-full'>
                         <label htmlFor="">First Name</label>
                         <input type="text" value={user?.firstName} className='border px-2 py-1 rounded-sm w-full' />

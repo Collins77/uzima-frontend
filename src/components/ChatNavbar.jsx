@@ -21,11 +21,13 @@ const ChatNavbar = () => {
         navigate('/signin');
     };
 
+    const userInitial = user?.firstName ? user.firstName.charAt(0).toUpperCase() : '';
+
   return (
-    <div className='w-full flex items-center justify-between px-[40px] bg-gray-50 border-b shadow-md h-[50px]'>
+    <div className='w-full flex items-center justify-between sm:px-[40px] px-[10px] bg-gray-50 border-b shadow-md h-[50px]'>
         <div>
             <img src="" alt="" />
-            <h1 className='font-bold text-green-500'>UZIMA AI</h1>
+            <h1 className='font-bold text-green-500'>UZIMA AI</h1> 
         </div>
         <div className='flex items-center gap-3'>
             <div className='hover:bg-gray-100 rounded-sm px-2 py-1'>
@@ -36,9 +38,9 @@ const ChatNavbar = () => {
             </div>
             <div onClick={toggleDropdown} className='flex items-center px-2 py-1 gap-3 justify-center bg-gray-200 hover:bg-gray-100 cursor-pointer'>
                 <div className='bg-purple-200 rounded-full p-1 w-8 h-8 flex items-center justify-center'>
-                    <h1>C</h1>
+                    <h1>{userInitial}</h1>
                 </div>
-                <div className='hover:text-white'>
+                <div className='hover:text-white sm:block hidden'>
                     <h1 className='text-sm text-black'>{user?.firstName} {user?.lastName}</h1>
                     <p className='text-sm text-black'>Personal</p>
                 </div>

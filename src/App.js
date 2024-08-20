@@ -36,6 +36,7 @@ import AdminLogin from './pages/Admin/AdminLogin';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import VerifyEmail from './pages/user/VerifyEmail';
 import RegistrationConfirm from './pages/user/RegistrationConfirm';
+import ChosenPlan from './pages/ChosenPlan';
 
 function App() {
   return (
@@ -75,6 +76,7 @@ function App() {
           </UserLayout>
           } />
         <Route path='/corp-signin' element={<CompanyLogin />} />
+        <Route path='/chosenplan' element={<ChosenPlan />} />
         <Route path='/corp-signup' element={<CompanyRegister />} />
         
         <Route element={<CompanyProtectedRoute />}>

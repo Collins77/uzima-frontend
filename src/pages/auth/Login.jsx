@@ -67,10 +67,10 @@ const Login = () => {
     <div className='w-full'>
       {/* <Navbar /> */}
       <div> 
-        <div className='flex flex-col items-center justify-center w-full h-[90vh]'>
-          <h1 className='font-bold text-4xl'>Welcome Back!</h1>
-          <p className='text-gray-500 text-sm mb-4'>Sign in to get your mental health checked and improved.</p>
-          <form onSubmit={handleSubmit} className='border border-green-100 w-[450px] p-[30px] rounded-xl shadow-md'>
+        <div className='flex sm:px-0 px-7 flex-col items-center justify-center w-full h-[90vh]'>
+          <h1 className='font-bold sm:text-4xl text-2xl'>Welcome Back!</h1>
+          <p className='text-gray-500  text-sm mb-4'>Sign in to get your mental health checked and improved.</p>
+          <form onSubmit={handleSubmit} className='border border-green-100 sm:w-[450px] p-[30px] rounded-xl shadow-md'>
             <h1 className='text-center font-bold text-2xl mb-3'>UZIMA AI</h1>
             <div className='' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
               <input
@@ -91,8 +91,8 @@ const Login = () => {
                 {loading ? 'Loading...' : 'Login'}
               </button>
               {error && <p className='text-red-500'>{error}</p>}
-              <div className='mb-6 flex w-full justify-between items-center'>
-                <a href="/forgot" className='text-sm text-start underline text-blue-500'>Forgot Password?</a>
+              <div className='mb-6 sm:flex block w-full justify-between items-center'>
+                <a href="/" className='text-sm sm:text-start text-center underline text-blue-500'>Home</a>
                 <p className='text-sm text-gray-500'>Don't have an account? <a href='/signup' className='underline text-green-500'>Sign Up</a></p>
               </div>
               <p className='text-sm text-gray-500'>By continuing, you agree to Uzima's <span className='underline'>Consumer terms</span> and <span className='underline'>usage policy</span>, and acknowledge our <span className='underline'>privacy policy.</span></p>
