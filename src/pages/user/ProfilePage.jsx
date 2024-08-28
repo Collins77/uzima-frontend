@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import DetailsForm from '../../components/DetailsForm';
 import { useSelector } from 'react-redux';
+import SecurityComponent from '../../components/SecurityComponent';
 
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState('details');
@@ -12,7 +13,7 @@ const ProfilePage = () => {
             case 'details':
                 return <div className='w-full'><DetailsForm user={user} /></div>;
             case 'security':
-                return <div>Security Content</div>;
+                return <div className='w-full'><SecurityComponent/></div>;
             default:
                 return null;
         }

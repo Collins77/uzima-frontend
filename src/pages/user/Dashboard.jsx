@@ -1,11 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowRight } from 'react-icons/fa6'
-import MoodChart from '../../components/MoodChart'
 import { FaBookOpen } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
+import DashMood from '../../components/DashMood'
+
+const SERVER = 'http://localhost:5000'
 
 const Dashboard = () => {
     const user = useSelector((state) => state.auth.user);
+    const [showModal, setShowModal] = useState(false);
+    const [mood, setMood] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [currentUser, setCurrentUser] = useState(false);
+    const token = useSelector((state) => state.auth.token);
+    
+    useEffect(() => {
+        const checkMoodForToday = () => {
+            if (currentUser && currentUser.moods) {
+                const today = new Date().toISOString().split('T')[0];
+                const moodToday = currentUser.moods.find(
+                    (mood) => new Date(mood.date).toISOString().split('T')[0] === today
+                );
+
+                if (!moodToday) {
+                    setShowModal(true);
+                }
+            }
+        };
+
+        checkMoodForToday();
+    }, [currentUser]);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await axios.get(`${SERVER}/api/users/get-user/${user._id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Replace `yourAuthToken` with your actual token
+                    'Content-Type': 'application/json'
+                }
+            });
+            setCurrentUser(res.data.user)
+        };
+
+        fetchUser()
+    }, [user._id, token]);
+
+    const handleMoodChange = (e) => {
+        setMood(e.target.value);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            // Post the new mood to the server
+            await axios.post(`${SERVER}/api/users/update-mood`, {
+                userId: user._id,
+                mood
+            });
+            // Close the modal since the mood is now updated for today
+            setShowModal(false);
+        } catch (error) {
+            console.error('Error submitting mood:', error);
+        }
+        setLoading(false);
+    };
+    
 
     return (
         <div className='p-2 w-full'>
@@ -14,7 +75,7 @@ const Dashboard = () => {
                     <p className='text-white text-sm'>You are on a free plan. Your access to our services is limited. Kindly <a href="/billing" className='underline'>Upgrade Here</a> to access everything.</p>
                 </div>
                 <div className='mb-4'>
-                    <h1 className='font-extrabold sm:text-2xl text-xl'>Welcome, {user?.firstName} 👋</h1>
+                    <h1 className='font-extrabold sm:text-2xl text-xl'>Welcome, {currentUser?.firstName} 👋</h1>
                     <p className='text-gray-500 text-sm'>Take a look at some of our features</p>
                 </div>
                 <div className='sm:flex w-full gap-2 mb-4'>
@@ -74,7 +135,7 @@ const Dashboard = () => {
                 <div className='sm:flex sm:gap-4'>
                     <div className='sm:w-[50%] sm:block hidden w-full sm:h-[250px] h-[150px]'>
                         <h1 className='mb-4 font-bold sm:text-xl'>This Weeks Analysis</h1>
-                        <MoodChart />
+                        <DashMood />
                     </div>
                     <div className='sm:w-[50%] w-full'>
                         <h1 className='font-bold mb-4'>Professional Appointments</h1>
@@ -129,6 +190,36 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+            {showModal && (
+                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
+                    <form onSubmit={handleSubmit} className='bg-white p-4 rounded-md w-fit'>
+                        <h2 className='text-lg font-bold mb-2'>How are you feeling today?</h2>
+                        <div className='flex gap-2'>
+                            <button value="very happy" onClick={handleMoodChange} className='flex items-center p-2 bg-green-300 rounded-md'>
+                                <span role="img" aria-label="very happy" className='mr-2'>😄</span> Very Happy
+                            </button>
+                            <button value="happy" onClick={handleMoodChange} className='flex items-center p-2 bg-yellow-300 rounded-md'>
+                                <span role="img" aria-label="happy" className='mr-2'>😊</span> Happy
+                            </button>
+                            <button value="neutral" onClick={handleMoodChange} className='flex items-center p-2 bg-gray-300 rounded-md'>
+                                <span role="img" aria-label="neutral" className='mr-2'>😐</span> Neutral
+                            </button>
+                            <button value="sad" onClick={handleMoodChange} className='flex items-center p-2 bg-orange-300 rounded-md'>
+                                <span role="img" aria-label="sad" className='mr-2'>😢</span> Sad
+                            </button>
+                            <button value="very sad" onClick={handleMoodChange} className='flex items-center p-2 bg-red-300 rounded-md'>
+                                <span role="img" aria-label="very sad" className='mr-2'>😭</span> Very Sad
+                            </button>
+                        </div>
+                        <div className='flex justify-center gap-2 mt-4'>
+                            <button onClick={() => setShowModal(false)} className='p-2 bg-gray-200 rounded-md'>Cancel</button>
+                            {/* <button onClick={handleSubmit} disabled={loading} className='p-2 bg-blue-500 text-white rounded-md'>
+                                {loading ? 'Submitting...' : 'Submit'}
+                            </button> */}
+                        </div>
+                    </form>
+                </div>
+            )}
         </div>
     )
 }

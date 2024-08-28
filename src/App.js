@@ -37,6 +37,9 @@ import AdminProtectedRoute from './components/AdminProtectedRoute';
 import VerifyEmail from './pages/user/VerifyEmail';
 import RegistrationConfirm from './pages/user/RegistrationConfirm';
 import ChosenPlan from './pages/ChosenPlan';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import PreferencesPage from './pages/user/PreferencesPage';
+import AnalyticsPage from './pages/user/AnalyticsPage';
 
 function App() {
   return (
@@ -48,19 +51,14 @@ function App() {
         <Route path='/registration-confirmation' element={<RegistrationConfirm />} />
         <Route path='/signup' element={<Register />} />
         <Route path='/signin' element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route element={<ProtectedRoute />}>
           <Route path='/dashboard' element={
             <UserLayout>
             <Dashboard />
           </UserLayout>
           } />
-        </Route>
-        {/* <Route path='/dashboard' element={
-          <UserLayout>
-            <Dashboard />
-          </UserLayout>
-          } /> */}
-        <Route path='/profile' element={
+          <Route path='/profile' element={
           <UserLayout>
             <ProfilePage />
           </UserLayout>
@@ -75,6 +73,23 @@ function App() {
             <BillingPage />
           </UserLayout>
           } />
+        <Route path='/preferences' element={
+          <UserLayout>
+            <PreferencesPage />
+          </UserLayout>
+          } />
+        <Route path='/analytics' element={
+          <UserLayout>
+            <AnalyticsPage />
+          </UserLayout>
+          } />
+        </Route>
+        {/* <Route path='/dashboard' element={
+          <UserLayout>
+            <Dashboard />
+          </UserLayout>
+          } /> */}
+        
         <Route path='/corp-signin' element={<CompanyLogin />} />
         <Route path='/chosenplan' element={<ChosenPlan />} />
         <Route path='/corp-signup' element={<CompanyRegister />} />

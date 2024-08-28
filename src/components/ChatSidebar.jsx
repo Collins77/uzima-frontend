@@ -4,7 +4,7 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { MdOutlineAnalytics } from "react-icons/md";
 import { CgProfile } from 'react-icons/cg';
 import { RiSecurePaymentFill } from "react-icons/ri";
-import { CgIfDesign } from "react-icons/cg";
+// import { CgIfDesign } from "react-icons/cg";
 import { FaBars } from 'react-icons/fa';
 
 const ChatSidebar = () => {
@@ -59,12 +59,12 @@ const ChatSidebar = () => {
                 Billing & Usage
               </a>
             </li>
-            <li className='hover:bg-gray-100 px-1 rounded-sm mb-2'>
-              <a href="/settings" className='flex items-center gap-2 text-[15px] text-gray-600'>
+            {/* <li className='hover:bg-gray-100 px-1 rounded-sm mb-2'>
+              <a href="/preferences" className='flex items-center gap-2 text-[15px] text-gray-600'>
                 <CgIfDesign />
                 Preference
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
