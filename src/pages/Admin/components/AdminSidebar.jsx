@@ -10,7 +10,8 @@ const AdminSidebar = () => {
         counsellors: false,
         userSubs: false,
         companySubs: false,
-        plans: false
+        plans: false,
+        events: false
     });
     const [sidebarRetracted, setSidebarRetracted] = useState(false);
 
@@ -122,10 +123,19 @@ const AdminSidebar = () => {
                     <FaCogs />
                     {!sidebarRetracted && <p>Send Email</p>}
                 </a>
-                <a href='/admin/' className='flex gap-4 items-center bg-gray-50 mb-2 w-full hover:bg-green-500 px-2 py-1 rounded-sm'>
-                    <FaCogs />
-                    {!sidebarRetracted && <p>Schedule Webinar</p>}
-                </a>
+                <div className='flex justify-between items-center bg-gray-50 mb-2 w-full hover:bg-green-500 px-2 py-1 rounded-sm cursor-pointer' onClick={() => toggleDropdown('events')}>
+                    <div className='flex gap-2 items-center'>
+                        <FaUserGroup />
+                        {!sidebarRetracted && <p>Events</p>}
+                    </div>
+                    {!sidebarRetracted && (dropdownVisible.events ? <IoIosArrowUp /> : <IoIosArrowDown />)}
+                </div>
+                {dropdownVisible.events && (
+                    <div className={`flex flex-col pl-8 mt-2 ${sidebarRetracted ? 'hidden' : ''}`}>
+                        <a href='/admin/events' className='mb-2 text-gray-500 hover:text-green-500'>All Events</a>
+                        <a href='/admin/create-event' className='mb-2 text-gray-500 hover:text-green-500'>Create Event</a>
+                    </div>
+                )}
                 <a href='/admin/' className='flex gap-4 items-center bg-gray-50 mb-2 w-full hover:bg-green-500 px-2 py-1 rounded-sm'>
                     <FaCogs />
                     {!sidebarRetracted && <p>Site Settings</p>}

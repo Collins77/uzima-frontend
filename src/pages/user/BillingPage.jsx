@@ -1,23 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import free from '../../assets/1710414.png'
 import { RxCross2 } from 'react-icons/rx';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const BillingPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const user = useSelector((state) => state.auth.user);
     const [currentPlanIndex, setCurrentPlanIndex] = useState(0);
+    const [loading,setLoading] = useState(false)
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
-    const plans = [
+    const plan = [
         {
             title: "Corporate Plan",
             price: "KES 4,000",
             img: free,
-            id:12345,
+            id:"66c359694313295404c6e48a",
             features: [
                 "✔️ Limited Access to Uzima",
                 "✔️ Limited access to counseling content"
@@ -27,7 +29,7 @@ const BillingPage = () => {
             title: "Corporate Plan",
             price: "KES 6,000",
             img: free,
-            id:12345,
+            id:"66addc7680a7383656304b26",
             features: [
                 "✔️ Limited Access to Uzima",
                 "✔️ Limited access to counseling content"
@@ -52,6 +54,27 @@ const BillingPage = () => {
     const prevPlan = () => {
         setCurrentPlanIndex((prevIndex) => (prevIndex - 1 + plans.length) % plans.length);
     };
+
+    const [plans,setPlans] = useState([]);
+
+
+
+    const getPlans = async()=>{
+        try {
+            const response = await axios.get('https://uzima-backe.vercel.app/api/plans/getplans');
+            setPlans(response.data);
+            setLoading(false);
+
+            
+        } catch (error) {
+            console.log("error getting plans",error)
+            
+        }
+    }
+
+    useEffect(()=>{
+        getPlans()
+    },[])
 
     return (
         <div className='p-[40px] w-full h-[100vh] flex justify-center'>
@@ -95,8 +118,9 @@ const BillingPage = () => {
                             <button onClick={prevPlan} className='text-gray-500 px-2 py-1'>&lt;</button>
                             <div className='flex flex-col items-center'>
                                 <img src={plans[currentPlanIndex].img} alt="" className='w-10 h-10' />
-                                <h1 className='font-bold text-xl'>{plans[currentPlanIndex].title}</h1>
-                                <p className='font-semibold text-gray-500 text-center'>{plans[currentPlanIndex].features.join(' • ')}</p>
+                                <h1 className='font-bold text-xl'>{plans[currentPlanIndex].name}</h1>
+                                <p className='font-semibold text-gray-500 text-center'>{plans[currentPlanIndex].description}</p>
+                                {/* <p className='font-semibold text-gray-500 text-center'>{plans[currentPlanIndex].features.join(' • ')}</p> */}
                                 <h1 className='font-bold text-3xl mt-4'>{plans[currentPlanIndex].price}</h1>
                                 <p className='text-gray-400 mb-2'>/employee (billed monthly)</p>
                                 {/* <Link to={`/chosenplan`} className='bg-black text-white px-2 py-1 rounded-sm'>Subscribe</Link> */}

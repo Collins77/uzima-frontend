@@ -6,7 +6,8 @@ import { logout } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
-const SERVER = 'http://localhost:5000'
+// const SERVER = 'http://localhost:5000'
+const SERVER = "https://uzima-backe.vercel.app"
 
 const SecurityComponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);

@@ -40,6 +40,7 @@ import ChosenPlan from './pages/ChosenPlan';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import PreferencesPage from './pages/user/PreferencesPage';
 import AnalyticsPage from './pages/user/AnalyticsPage';
+import AdminEvents from './pages/Admin/AdminEvents';
 
 function App() {
   return (
@@ -189,6 +190,11 @@ function App() {
                 <Route path='/plans' element={
                   <AdminLayout>
                     <AdminPlans />
+                  </AdminLayout>
+                } />
+                <Route path='/events' element={
+                  <AdminLayout>
+                    <AdminEvents />
                   </AdminLayout>
                 } />
                 <Route path='/create-plan' element={

@@ -1,46 +1,44 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FaEdit } from 'react-icons/fa';
-import { FaEye, FaTrash } from 'react-icons/fa6';
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux';
-import { Tooltip } from 'react-tooltip';
-const SERVER = "https://uzima-backe.vercel.app"
+import { Tooltip } from 'react-tooltip'
 // const SERVER = "http://localhost:5000"
+const SERVER = "https://uzima-backe.vercel.app"
 
-const AdminUsers = () => {
-    const { admin, token } = useSelector(state => state.auth);
-    const [users, setUsers] = useState([]);
+const AdminEvents = () => {
+    const { company, token } = useSelector(state => state.auth);
+    const [events, setEvents] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [filteredEvents, setFilteredEvents] = useState([]);
 
     useEffect(() => {
         // Fetch the users for the company
-        axios.get(`${SERVER}/api/admin/get-users`, {
+        axios.get(`${SERVER}/api/events/get-events`, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(response => {
-            setUsers(response.data);
-            setFilteredUsers(response.data); // Initialize filtered users
+            setEvents(response.data);
+            setFilteredEvents(response.data); // Initialize filtered users
         })
         .catch(error => {
-            console.error('Error fetching users:', error);
+            console.error('Error fetching events:', error);
         });
     }, [token]);
 
     useEffect(() => {
         // Filter users based on the search query
-        setFilteredUsers(
-            users.filter(user =>
-                `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+        setFilteredEvents(
+            events.filter(plan =>
+                `${plan.name}`.toLowerCase().includes(searchQuery.toLowerCase())
             )
         );
-    }, [searchQuery, users]);
-
+    }, [searchQuery, events]);
   return (
     <div className='p-4'>
             <div className='mb-10 border-b pb-2'>
-                <h1 className='font-bold text-2xl'>View Users</h1>
-                <p className='text-sm text-gray-500'>All users and their subscription plans.</p>
+                <h1 className='font-bold text-2xl'>View Plans</h1>
+                <p className='text-sm text-gray-500'>All Subscription Plans.</p>
             </div>
             <div>
                 <div className='bg-slate-100 h-[70px] flex items-center justify-between px-4'>
@@ -52,26 +50,26 @@ const AdminUsers = () => {
                         onChange={e => setSearchQuery(e.target.value)}
                     />
                     <div>
-                        <a href="/admin/create-user" className='bg-green-500 py-2 px-2 text-white text-center rounded-md hover:bg-green-700'>Create User</a>
+                        <a href="/admin/create-plan" className='bg-green-500 py-2 px-2 text-white text-center rounded-md hover:bg-green-700'>Create Plan</a>
                     </div>
                 </div>
                 <div className='bg-slate-100 p-2'>
                     <table className='border bg-white p-4 rounded-sm w-full shadow-md'>
                         <thead>
                             <tr>
-                                <th className='px-4 py-2'>First Name</th>
-                                <th className='px-4 py-2'>Last Name</th>
-                                <th className='px-4 py-2'>Email Address</th>
-                                <th className='px-4 py-2'>Status</th>
+                                <th className='px-4 py-2'>Plan Name</th>
+                                <th className='px-4 py-2'>Amount</th>
+                                <th className='px-4 py-2'>Duration</th>
+                                <th className='px-4 py-2'>Type</th>
                                 <th className='px-4 py-2'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredUsers && filteredUsers.map((user) => (
-                                <tr key={user._id} className='border-b text-center'>
-                                    <td className='px-4 py-3'>{user.firstName}</td>
-                                    <td className='px-4 py-3'>{user.lastName}</td>
-                                    <td className='px-4 py-3'>{user.email}</td>
+                            {filteredEvents && filteredEvents.map((event) => (
+                                <tr key={event._id} className='border-b text-center'>
+                                    <td className='px-4 py-3'>{event.name}</td>
+                                    <td className='px-4 py-3'>{event.price}</td>
+                                    <td className='px-4 py-3'>{event?.duration}</td>
                                     <td className='px-4 py-3 text-green-400'>Active</td>
                                     <td className='px-4 py-3 flex gap-2 items-center justify-center'>
                                         <div>
@@ -97,4 +95,4 @@ const AdminUsers = () => {
   )
 }
 
-export default AdminUsers
+export default AdminEvents

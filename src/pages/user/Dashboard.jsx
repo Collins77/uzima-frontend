@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux'
 import axios from 'axios'
 import DashMood from '../../components/DashMood'
 
-const SERVER = 'http://localhost:5000'
+// const SERVER = 'http://localhost:5000'
+const SERVER = 'https://uzima-backe.vercel.app'
 
 const Dashboard = () => {
     const user = useSelector((state) => state.auth.user);

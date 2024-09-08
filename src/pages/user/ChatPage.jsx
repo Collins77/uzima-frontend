@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoSend } from "react-icons/io5";
 // import model from '../../lib/gemini';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-const SERVER = "http://localhost:5000";
-// const SERVER = "https://uzima-backe.vercel.app";
+// const SERVER = "http://localhost:5000";
+const SERVER = "https://uzima-backe.vercel.app";
 
 
 
@@ -17,6 +17,7 @@ const ChatPage = () => {
     const userId = user._id;
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const textareaRef = useRef(null);
 
     const formatMessage = (msg) => {
         // Ensure message content is always an array
@@ -28,24 +29,22 @@ const ChatPage = () => {
         }
         return msg;
     };
+    const fetchThread = async () => {
+        try {
+            const response = await axios.get(`${SERVER}/api/assistant/thread-messages?userId=${userId}`);
+            const { messages } = response.data;
+            setMessages(messages);
+        } catch (error) {
+            console.error('Error fetching thread:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         setLoading(true);
-        // Fetch existing thread and messages on component mount
-        const fetchThread = async () => {
-            try {
-                const response = await axios.get(`${SERVER}/api/assistant/thread-messages?userId=${userId}`);
-                const { messages } = response.data;
-                setMessages(messages);
-            } catch (error) {
-                console.error('Error fetching thread:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchThread();
-    }, [userId]);
+    }, []);
 
     const add = async (text) => {
         setQuestion(text);
@@ -75,11 +74,10 @@ const ChatPage = () => {
                 { role: 'assistant', content: formattedResponse.map(point => ({ type: 'text', text: { value: point } })) }
             ];
 
-            console.log('New messages:', newMessages);
-
             // Update state with new messages
-            setMessages(prevMessages => [...prevMessages, ...newMessages.map(formatMessage)]);
+            setMessages(prevMessages => [...prevMessages, ...newMessages.map(formatMessage)]); 
             setQuestion('');
+            await fetchThread()
         } catch (error) {
             if (error.response && error.response.status === 403) {
                 setError(error.response.data.error); // Set the error message from the backend
@@ -87,8 +85,22 @@ const ChatPage = () => {
                 setError('An unexpected error occurred');
             }
         } finally {
+            await fetchThread()
             setLoading(false);
-            window.location.reload();
+        }
+    };
+
+    const handleTextareaChange = (e) => {
+        setQuestion(e.target.value);
+        const textarea = textareaRef.current;
+        textarea.style.height = 'auto'; // Reset height
+        textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height based on content
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent newline
+            handleSubmit(e); // Submit the form
         }
     };
 
@@ -96,6 +108,7 @@ const ChatPage = () => {
         e.preventDefault();
         if (!question.trim()) return; // Avoid sending empty messages
         await add(question);
+        setQuestion('');
     };
 
     return (
@@ -107,7 +120,7 @@ const ChatPage = () => {
                 <div>
                     <h1 className='font-bold'>Chat with Uzima AI</h1>
                     <p className='text-gray-400 text-sm'>Have a conversation with uzima about any issue you are experiencing.</p>
-                    <div className='w-full relative p-3 border border-green-500 h-[450px] overflow-auto bg-gray-200 rounded-md'>
+                    <div className='sm:w-full w-[80%] relative p-3 border border-green-500 h-[340px] sm:h-[450px] overflow-auto bg-gray-200 rounded-md'>
                         {loading ? (
                             <div>
                                 <h1>Loading...</h1>
@@ -123,7 +136,7 @@ const ChatPage = () => {
                                 ))} */}
                                 {messages.map((msg, index) => (
                                     <div key={index} className={`mb-2 p-2 rounded-md max-w-[60%] ${
-                                        msg.role === 'user' ? 'bg-black text-white self-end ml-auto' : 'bg-gray-500 text-white self-start mr-auto'
+                                        msg.role === 'user' ? 'bg-black text-white self-end sm:ml-auto ml-0' : 'bg-gray-500 text-white sm:self-start self-center sm:mr-auto mr-0'
                                     }`}>
                                         {msg.content.map((part, idx) => (
                                             <ReactMarkdown
@@ -136,17 +149,18 @@ const ChatPage = () => {
                                 ))}
                             </div>
                         )}
-                        <div className='fixed sm:w-[75%] flex items-center sm:bottom-[50px] bottom-[20px] sm:right-20'>
+                        
+                        <div className='fixed sm:w-[75%] flex items-center sm:bottom-[50px] bottom-[100px] sm:right-20'>
                             <form onSubmit={handleSubmit} className='w-full relative px-5'>
-                                {/* <input type="text" name='text' className='w-[100%] px-3 py-2 rounded-md bg-gray-800 text-white' placeholder='Ask me anything...' /> */}
-                                <input
-                                    type="text"
-                                    name='text'
+                                <textarea
+                                    ref={textareaRef}
                                     value={question}
-                                    onChange={(e) => setQuestion(e.target.value)} // Controlled component
+                                    onChange={handleTextareaChange}
                                     className='w-[100%] px-3 py-2 rounded-md bg-gray-800 text-white'
                                     placeholder='Ask me anything...'
-                                    disabled={loading} // Disable input while loading
+                                    rows={1} // Initial height
+                                    disabled={loading}
+                                    onKeyDown={handleKeyDown}
                                 />
                                 <button className='absolute right-8 text-gray-500 top-3'>
                                     <IoSend />
