@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-// const SERVER = "http://localhost:5000";
-const SERVER = "https://uzima-backe.vercel.app";
+const SERVER = "http://localhost:5000";
+// const SERVER = "https://uzima-backe.vercel.app";
 
 
 
@@ -49,7 +49,7 @@ const ChatPage = () => {
     const add = async (text) => {
         setQuestion(text);
         setLoading(true);
-        setError(null); 
+        setError(null);
 
         try {
             const response = await axios.post(`${SERVER}/api/assistant/add-message`, {
@@ -75,7 +75,7 @@ const ChatPage = () => {
             ];
 
             // Update state with new messages
-            setMessages(prevMessages => [...prevMessages, ...newMessages.map(formatMessage)]); 
+            setMessages(prevMessages => [...prevMessages, ...newMessages.map(formatMessage)]);
             setQuestion('');
             await fetchThread()
         } catch (error) {
@@ -112,69 +112,56 @@ const ChatPage = () => {
     };
 
     return (
-        <div className='p-2 w-full'>
-            <div className='bg-gray-50 w-full h-[100vh] p-2'>
-                <div className='bg-red-500 py-1 mb-4 flex items-center justify-center'>
-                    <p className='text-white text-sm'>You are on a free plan. Your access to our services is limited. Kindly <a href="/billing" className='underline'>Upgrade Here</a> to access everything.</p>
+        <div className="flex flex-col h-screen bg-gray-100">
+            <div className="flex-grow p-6 overflow-y-auto">
+                <div className="bg-blue-500 text-white p-3 rounded-md text-center mb-4">
+                    <p className="text-sm">You are on a free plan. Upgrade <a href="/billing" className="underline">here</a> to access more services.</p>
                 </div>
-                <div>
-                    <h1 className='font-bold'>Chat with Uzima AI</h1>
-                    <p className='text-gray-400 text-sm'>Have a conversation with uzima about any issue you are experiencing.</p>
-                    <div className='sm:w-full w-[80%] relative p-3 border border-green-500 h-[340px] sm:h-[450px] overflow-auto bg-gray-200 rounded-md'>
-                        {loading ? (
-                            <div>
-                                <h1>Loading...</h1>
+
+                <div className="flex flex-col bg-white rounded-lg shadow-md p-6">
+                    {loading ? (
+                        <div className="text-center w-full">
+                            <div className="ellipsis">
+                                <div></div>
+                                <div></div>
+                                <div></div>
                             </div>
-                        ) : (
-                            <div>
-                                {/* {messages.map((msg, index) => (
-                                    <div key={index} className={`mb-2 p-2  rounded-md ${msg.role === 'user' ? 'bg-black text-white float-end w-fit mt-10' : 'bg-gray-500 mt-10 w-[80%] float-start text-white'}`}>
-                                        {msg.content.map((part, idx) => (
-                                            <ReactMarkdown key={idx} children={part.text?.value || 'No content available'} remarkPlugins={[remarkGfm]} />
-                                        ))}
-                                    </div>
-                                ))} */}
-                                {messages.map((msg, index) => (
-                                    <div key={index} className={`mb-2 p-2 rounded-md max-w-[60%] ${
-                                        msg.role === 'user' ? 'bg-black text-white self-end sm:ml-auto ml-0' : 'bg-gray-500 text-white sm:self-start self-center sm:mr-auto mr-0'
-                                    }`}>
-                                        {msg.content.map((part, idx) => (
-                                            <ReactMarkdown
-                                                key={idx}
-                                                children={part.text?.value || 'No content available'}
-                                                remarkPlugins={[remarkGfm]}
-                                            />
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        
-                        <div className='fixed sm:w-[75%] flex items-center sm:bottom-[50px] bottom-[100px] sm:right-20'>
-                            <form onSubmit={handleSubmit} className='w-full relative px-5'>
-                                <textarea
-                                    ref={textareaRef}
-                                    value={question}
-                                    onChange={handleTextareaChange}
-                                    className='w-[100%] px-3 py-2 rounded-md bg-gray-800 text-white'
-                                    placeholder='Ask me anything...'
-                                    rows={1} // Initial height
-                                    disabled={loading}
-                                    onKeyDown={handleKeyDown}
-                                />
-                                <button className='absolute right-8 text-gray-500 top-3'>
-                                    <IoSend />
-                                </button>
-                            </form>
                         </div>
-                    </div>
+                    ) : (
+                        messages.map((msg, index) => (
+                            <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} mb-2`}>
+                                <div className={`rounded-lg p-4 max-w-[80%] ${msg.role === 'user' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-black'}`}>
+                                    {msg.content.map((part, idx) => (
+                                        <ReactMarkdown key={idx} children={part.text?.value || 'No content available'} remarkPlugins={[remarkGfm]} />
+                                    ))}
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
-                {error && (
-                    <div className='fixed bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-red-600 text-white rounded-md'>
-                        {error}
-                    </div>
-                )}
             </div>
+
+            <form onSubmit={handleSubmit} className="fixed bottom-0 w-[85%] p-4 bg-white border-t border-gray-300">
+                <div className="flex items-center">
+                    <textarea
+                        ref={textareaRef}
+                        value={question}
+                        onChange={handleTextareaChange}
+                        onKeyDown={handleKeyDown}
+                        rows={1}
+                        className="resize-none w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Ask me anything..."
+                        disabled={loading}
+                    />
+                    <button type="submit" className="ml-4 text-blue-500 text-2xl">
+                        <IoSend />
+                    </button>
+                </div>
+            </form>
+
+            {error && (
+                <div className="mt-2 text-center text-red-600">{error}</div>
+            )}
         </div>
     )
 }

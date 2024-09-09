@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux'
 import axios from 'axios'
 import DashMood from '../../components/DashMood'
 
-// const SERVER = 'http://localhost:5000'
-const SERVER = 'https://uzima-backe.vercel.app'
+const SERVER = 'http://localhost:5000'
+// const SERVER = 'https://uzima-backe.vercel.app'
 
 const Dashboard = () => {
     const user = useSelector((state) => state.auth.user);
@@ -15,7 +15,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(false);
     const [currentUser, setCurrentUser] = useState(false);
     const token = useSelector((state) => state.auth.token);
-    
+
     useEffect(() => {
         const checkMoodForToday = () => {
             if (currentUser && currentUser.moods) {
@@ -67,13 +67,13 @@ const Dashboard = () => {
         }
         setLoading(false);
     };
-    
+
 
     return (
         <div className='p-2 w-full'>
             <div className='bg-gray-50 w-full h-[100vh] p-2'>
-                <div className='bg-red-500 py-1 flex items-center justify-center'>
-                    <p className='text-white text-sm'>You are on a free plan. Your access to our services is limited. Kindly <a href="/billing" className='underline'>Upgrade Here</a> to access everything.</p>
+                <div className="bg-blue-500 text-white p-3 rounded-md text-center mb-4">
+                    <p className="text-sm">You are on a free plan. Upgrade <a href="/billing" className="underline">here</a> to access more services.</p>
                 </div>
                 <div className='mb-4'>
                     <h1 className='font-extrabold sm:text-2xl text-xl'>Welcome, {currentUser?.firstName} 👋</h1>

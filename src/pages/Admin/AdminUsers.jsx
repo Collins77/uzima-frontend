@@ -4,8 +4,8 @@ import { FaEdit } from 'react-icons/fa';
 import { FaEye, FaTrash } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
-const SERVER = "https://uzima-backe.vercel.app"
-// const SERVER = "http://localhost:5000"
+// const SERVER = "https://uzima-backe.vercel.app"
+const SERVER = "http://localhost:5000"
 
 const AdminUsers = () => {
     const { admin, token } = useSelector(state => state.auth);

@@ -31,7 +31,7 @@ const ChatNavbar = () => {
         </div>
         <div className='flex items-center gap-3'>
             <div className='hover:bg-gray-100 rounded-sm px-2 py-1'>
-                <p className='text-sm'>Plan: <span className='text-red-500 text-sm '>Free</span></p>
+                <p className='text-sm'>Plan: <span className='text-red-500 text-sm'>Free</span></p>
             </div>
             <div className='p-2 cursor-pointer hover:bg-gray-100 rounded-sm'>
                 <FaBell />

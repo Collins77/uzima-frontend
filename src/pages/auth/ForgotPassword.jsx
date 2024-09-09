@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import logo from '../../assets/uzima-logo.png'
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-// const SERVER = "http://localhost:5000"
-const SERVER = "https://uzima-backe.vercel.app"
+const SERVER = "http://localhost:5000"
+// const SERVER = "https://uzima-backe.vercel.app"
 
 const ForgotPassword = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { loading, error, } = useSelector((state) => state.auth);
     const [email, setEmail] = useState('');
     const [successMessage, setSuccessMessage] = useState('');

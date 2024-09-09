@@ -25,8 +25,8 @@ const Navbar = () => {
           </div>
           {isProductsDropdownOpen && (
             <div className='absolute left-100 mt-4 bg-white shadow-lg rounded-lg z-10'>
-              <a href='/product1' className='block px-4 py-1 hover:bg-gray-100'>Personal</a>
-              <a href='/product2' className='block px-4 py-1 hover:bg-gray-100'>Corporate</a>
+              <a href='/for-users' className='block px-4 py-1 hover:bg-gray-100'>Personal</a>
+              <a href='/for-corporate' className='block px-4 py-1 hover:bg-gray-100'>Corporate</a>
             </div>
           )}
         </div>

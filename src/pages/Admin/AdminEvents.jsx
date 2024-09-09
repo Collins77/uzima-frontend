@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip'
-// const SERVER = "http://localhost:5000"
-const SERVER = "https://uzima-backe.vercel.app"
+const SERVER = "http://localhost:5000"
+// const SERVER = "https://uzima-backe.vercel.app"
 
 const AdminEvents = () => {
     const { company, token } = useSelector(state => state.auth);

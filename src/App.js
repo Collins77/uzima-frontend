@@ -41,12 +41,18 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import PreferencesPage from './pages/user/PreferencesPage';
 import AnalyticsPage from './pages/user/AnalyticsPage';
 import AdminEvents from './pages/Admin/AdminEvents';
+import AboutPage from './pages/AboutPage';
+import UsersPage from './pages/UsersPage';
+import CorpPage from './pages/CorpPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='/for-users' element={<UsersPage />} />
+        <Route path='/for-corporate' element={<CorpPage />} />
         <Route path='/corp-pricing' element={<CompanyPricing />} />
         <Route path='/verify-email' element={<VerifyEmail />} />
         <Route path='/registration-confirmation' element={<RegistrationConfirm />} />
