@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify';
-// const SERVER_URL = 'https://uzima-backe.vercel.app';
-const SERVER_URL = 'http://localhost:5000';
+const SERVER_URL = 'https://uzima-backe.vercel.app';
+// const SERVER_URL = 'http://localhost:5000';
 
 // export const registerUser = createAsyncThunk('auth/register', async (userData) => {
 //     const response = await axios.post(`${SERVER_URL}/api/users/register`, userData);

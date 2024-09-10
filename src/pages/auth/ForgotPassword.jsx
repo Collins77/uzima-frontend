@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const SERVER = "http://localhost:5000"
-// const SERVER = "https://uzima-backe.vercel.app"
+// const SERVER = "http://localhost:5000"
+const SERVER = "https://uzima-backe.vercel.app"
 
 const ForgotPassword = () => {
     const dispatch = useDispatch();

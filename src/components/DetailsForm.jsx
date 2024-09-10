@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { logout } from '../redux/authSlice';
-const SERVER = 'http://localhost:5000'
-// const SERVER = "https://uzima-backe.vercel.app"
+// const SERVER = 'http://localhost:5000'
+const SERVER = "https://uzima-backe.vercel.app"
 
 const DetailsForm = ({user}) => {
     const [firstName, setFirstName] = useState(user?.firstName || '');
